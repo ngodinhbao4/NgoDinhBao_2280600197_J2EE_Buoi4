@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+    <meta charset="UTF-8">
+    <title layout:title-pattern="$CONTENT_TITLE - Hệ thống">Quản lý sản phẩm</title>
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 30px; background-color: #f4f7f6; }
+        nav { background: #2c3e50; padding: 15px; border-radius: 5px; margin-bottom: 25px; }
+        nav a { color: white; text-decoration: none; margin-right: 20px; font-weight: bold; }
+        nav a:hover { color: #1abc9c; }
+        .container { background: white; padding: 30px; border-radius: 10px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
+        h2 { color: #2c3e50; border-bottom: 2px solid #1abc9c; padding-bottom: 10px; }
+        .error { color: #e74c3c; font-size: 0.85em; font-style: italic; display: block; margin-top: 5px; }
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        th { background-color: #34495e; color: white; padding: 12px; text-align: left; }
+        td { padding: 12px; border-bottom: 1px solid #ddd; }
+        tr:hover { background-color: #f9f9f9; }
+        .btn-edit { color: #3498db; text-decoration: none; font-weight: bold; }
+        .btn-delete { color: #e74c3c; text-decoration: none; font-weight: bold; }
+        input[type="text"], input[type="number"], select { width: 100%; padding: 8px; margin-top: 5px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box; }
+        button { background: #1abc9c; color: white; border: none; padding: 10px 20px; border-radius: 4px; cursor: pointer; font-size: 16px; margin-top: 15px; }
+        button:hover { background: #16a085; }
+    </style>
+</head>
+<body>
+<nav>
+    <a th:href="@{/products}">📦 Danh sách sản phẩm</a>
+    <a th:href="@{/products/create}">➕ Thêm sản phẩm mới</a>
+</nav>
+
+<div class="container">
+    <div layout:fragment="content"></div>
+</div>
+
+<p style="text-align: center; color: #95a5a6; margin-top: 20px; font-size: 0.8em;">
+    © 2026 Spring Boot Validation & Layout Dialect
+</p>
+</body>
+</html>
