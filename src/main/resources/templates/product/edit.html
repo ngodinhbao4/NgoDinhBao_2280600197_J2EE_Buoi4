@@ -4,46 +4,94 @@
       layout:decorate="~{layout}">
 <head>
     <title>Chỉnh sửa sản phẩm</title>
+    <style>
+        .form-group { margin-bottom: 20px; }
+        .form-label { 
+            display: block; 
+            font-weight: 600; 
+            color: var(--text-main); 
+            margin-bottom: 8px; 
+            font-size: 14px;
+        }
+        .image-preview-box {
+            background: #f8fafc;
+            border: 1.5px dashed #e2e8f0;
+            border-radius: 12px;
+            padding: 15px;
+            display: inline-block;
+            margin-top: 10px;
+        }
+        .btn-group {
+            display: flex;
+            gap: 12px;
+            margin-top: 30px;
+        }
+        .btn-secondary {
+            background: #f1f5f9;
+            color: var(--text-main);
+            text-decoration: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-weight: 600;
+            text-align: center;
+            flex: 1;
+            transition: 0.2s;
+        }
+        .btn-secondary:hover { background: #e2e8f0; }
+        button[type="submit"] { flex: 2; margin-top: 0; }
+    </style>
 </head>
 <body>
 <div layout:fragment="content">
-    <h2>CHỈNH SỬA SẢN PHẨM</h2>
+    <h2>
+        <span>✏️ CHỈNH SỬA SẢN PHẨM</span>
+    </h2>
 
-    <form th:action="@{/products/edit}" th:object="${product}" method="post" enctype="multipart/form-data">
+    <form th:action="@{/products/edit}" th:object="${product}" method="post" enctype="multipart/form-data" style="max-width: 600px; margin-top: 30px;">
         <input type="hidden" th:field="*{id}" />
 
-        <div>
-            <label>Tên sản phẩm:</label><br/>
-            <input type="text" th:field="*{name}" />
-            <p style="color:red" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></p>
-        </div><br/>
+        <div class="form-group">
+            <label class="form-label">Tên sản phẩm</label>
+            <input type="text" th:field="*{name}" placeholder="Nhập tên sản phẩm..." />
+            <p class="error" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></p>
+        </div>
 
-        <div>
-            <label>Giá:</label><br/>
-            <input type="number" th:field="*{price}" />
-            <p style="color:red" th:if="${#fields.hasErrors('price')}" th:errors="*{price}"></p>
-        </div><br/>
+        <div class="form-group">
+            <label class="form-label">Giá sản phẩm (VNĐ)</label>
+            <input type="number" th:field="*{price}" placeholder="Ví dụ: 500000" />
+            <p class="error" th:if="${#fields.hasErrors('price')}" th:errors="*{price}"></p>
+        </div>
 
-        <div>
-            <label>Danh mục:</label><br/>
+        <div class="form-group">
+            <label class="form-label">Danh mục sản phẩm</label>
             <select name="categoryId">
+                <option value="" disabled>-- Chọn danh mục --</option>
                 <option th:each="cat : ${categories}"
                         th:value="${cat.id}"
                         th:text="${cat.name}"
                         th:selected="${product.category != null && cat.id == product.category.id}">
                 </option>
             </select>
-        </div><br/>
+        </div>
 
-        <div>
-            <label>Hình ảnh hiện tại:</label><br/>
-            <img th:if="*{image}" th:src="@{'/images/' + *{image}}" width="100" style="border: 1px solid #ccc;"/><br/>
-            <label>Chọn ảnh mới (nếu muốn thay đổi):</label><br/>
-            <input type="file" name="imageProduct" />
-        </div><br/>
+        <div class="form-group">
+            <label class="form-label">Hình ảnh sản phẩm</label>
+            
+            <div class="image-preview-box" th:if="*{image}">
+                <p style="font-size: 12px; color: var(--text-muted); margin-bottom: 8px;">Ảnh hiện tại:</p>
+                <img th:src="@{'/images/' + *{image}}" width="120" style="border-radius: 8px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);"/>
+            </div>
 
-        <button type="submit">Lưu thay đổi</button>
-        <a th:href="@{/products}">Quay lại</a>
+            <div style="margin-top: 15px;">
+                <label class="form-label" style="font-size: 13px; color: var(--text-muted);">Thay đổi ảnh mới:</label>
+                <input type="file" name="imageProduct" accept="image/*" style="border: none; padding: 0;" />
+            </div>
+        </div>
+
+        <div class="btn-group">
+            <a th:href="@{/products}" class="btn-secondary">Hủy bỏ</a>
+            <button type="submit">Lưu thay đổi</button>
+        </div>
     </form>
 </div>
 </body>
