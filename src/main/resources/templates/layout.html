@@ -3,38 +3,216 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 <head>
     <meta charset="UTF-8">
-    <title layout:title-pattern="$CONTENT_TITLE - Hệ thống">Quản lý sản phẩm</title>
+    <title layout:title-pattern="$CONTENT_TITLE - J2EE Store">Product Management</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 30px; background-color: #f4f7f6; }
-        nav { background: #2c3e50; padding: 15px; border-radius: 5px; margin-bottom: 25px; }
-        nav a { color: white; text-decoration: none; margin-right: 20px; font-weight: bold; }
-        nav a:hover { color: #1abc9c; }
-        .container { background: white; padding: 30px; border-radius: 10px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
-        h2 { color: #2c3e50; border-bottom: 2px solid #1abc9c; padding-bottom: 10px; }
-        .error { color: #e74c3c; font-size: 0.85em; font-style: italic; display: block; margin-top: 5px; }
-        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
-        th { background-color: #34495e; color: white; padding: 12px; text-align: left; }
-        td { padding: 12px; border-bottom: 1px solid #ddd; }
-        tr:hover { background-color: #f9f9f9; }
-        .btn-edit { color: #3498db; text-decoration: none; font-weight: bold; }
-        .btn-delete { color: #e74c3c; text-decoration: none; font-weight: bold; }
-        input[type="text"], input[type="number"], select { width: 100%; padding: 8px; margin-top: 5px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box; }
-        button { background: #1abc9c; color: white; border: none; padding: 10px 20px; border-radius: 4px; cursor: pointer; font-size: 16px; margin-top: 15px; }
-        button:hover { background: #16a085; }
+        :root {
+            --primary-color: #4f46e5;
+            --secondary-color: #6b7280;
+            --danger-color: #ef4444;
+            --success-color: #22c55e;
+            --background-color: #f3f4f6;
+            --card-background: #ffffff;
+            --text-main: #1f2937;
+            --text-muted: #6b7280;
+            --border-color: #e5e7eb;
+            --font-family: 'Inter', sans-serif;
+            --shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+            --border-radius: 0.75rem;
+        }
+
+        *, *::before, *::after {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: var(--font-family);
+            background-color: var(--background-color);
+            color: var(--text-main);
+            margin: 0;
+            padding: 2rem;
+        }
+
+        header {
+            max-width: 1100px;
+            margin: 0 auto 2rem auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            text-decoration: none;
+        }
+
+        nav a {
+            color: var(--text-muted);
+            text-decoration: none;
+            margin-left: 1.5rem;
+            font-weight: 500;
+            transition: color 0.2s ease-in-out;
+        }
+        nav a:hover, nav a.active {
+            color: var(--primary-color);
+        }
+
+        .main-content {
+            background-color: var(--card-background);
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 2.5rem;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+        }
+        
+        footer {
+            text-align: center;
+            margin-top: 3rem;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        h2 {
+            font-size: 1.75rem;
+            font-weight: 600;
+            color: var(--text-main);
+            margin-top: 0;
+            margin-bottom: 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            padding: 1rem 1.25rem;
+            text-align: left;
+            border-bottom: 1px solid var(--border-color);
+        }
+        thead th {
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            border-bottom-width: 2px;
+        }
+        tbody tr:last-child td {
+            border-bottom: none;
+        }
+        tbody tr:hover {
+            background-color: #f9fafb;
+        }
+
+        .btn, button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0.65rem 1.25rem;
+            border-radius: 0.5rem;
+            font-weight: 600;
+            font-size: 0.9rem;
+            text-decoration: none;
+            border: 1px solid transparent;
+            cursor: pointer;
+            transition: all 0.2s ease-in-out;
+        }
+        .btn-primary, button[type="submit"] {
+            background-color: var(--primary-color);
+            color: white;
+            border-color: var(--primary-color);
+        }
+        .btn-primary:hover, button[type="submit"]:hover {
+            background-color: #4338ca;
+        }
+        .btn-danger {
+            background-color: var(--danger-color);
+            color: white;
+        }
+        .btn-danger:hover {
+            background-color: #dc2626;
+        }
+        .btn-secondary {
+            background-color: var(--card-background);
+            color: var(--text-main);
+            border-color: var(--border-color);
+        }
+        .btn-secondary:hover {
+            background-color: #f9fafb;
+            border-color: #d1d5db;
+        }
+        
+        .action-group {
+            display: flex;
+            gap: 0.75rem;
+        }
+
+        /* Form Styles */
+        .form-group { margin-bottom: 1.5rem; }
+        .form-label { 
+            display: block; 
+            font-weight: 500; 
+            color: var(--text-main); 
+            margin-bottom: 0.5rem; 
+            font-size: 0.9rem;
+        }
+        input[type="text"], input[type="number"], select {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            border: 1px solid var(--border-color);
+            border-radius: 0.5rem;
+            background-color: #f9fafb;
+            font-size: 1rem;
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+        input[type="text"]:focus, input[type="number"]:focus, select:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgb(79 70 229 / 0.2);
+        }
+        input[type="file"] {
+            border: 2px dashed var(--border-color);
+            padding: 2rem;
+            background: #f9fafb;
+            cursor: pointer;
+            width: 100%;
+            border-radius: var(--border-radius);
+            text-align: center;
+            color: var(--text-muted);
+        }
+        input[type="file"]:hover {
+            border-color: var(--primary-color);
+        }
+        .error { color: var(--danger-color); font-size: 0.875rem; display: block; margin-top: 0.5rem; }
+        .btn-group { display: flex; gap: 1rem; margin-top: 2rem; }
+
     </style>
 </head>
 <body>
-<nav>
-    <a th:href="@{/products}"> Danh sách sản phẩm</a>
-    <a th:href="@{/products/create}"> Thêm sản phẩm mới</a>
-</nav>
 
-<div class="container">
-    <div layout:fragment="content"></div>
-</div>
+<header>
+    <a th:href="@{/products}" class="logo">J2EE Store</a>
+    <nav>
+        <a th:href="@{/products}" th:classappend="${requestURI.startsWith('/products') ? 'active' : ''}">Products</a>
+    </nav>
+</header>
 
-<p style="text-align: center; color: #95a5a6; margin-top: 20px; font-size: 0.8em;">
-    © 2026 Spring Boot Validation & Layout Dialect
-</p>
+<main class="main-content">
+    <div layout:fragment="content">
+        <!-- The content from other pages will be rendered here -->
+    </div>
+</main>
+
+<footer>
+    <p>&copy; 2026 J2EE Project. All rights reserved.</p>
+</footer>
+
 </body>
 </html>

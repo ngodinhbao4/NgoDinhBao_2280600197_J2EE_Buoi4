@@ -1,51 +1,39 @@
 
 package com.example.bai4.service;
 import com.example.bai4.model.Product;
+import com.example.bai4.repository.ProductRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.nio.file.*;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
 @Service
 public class ProductService {
 
-    List<Product> listProduct = new ArrayList<>();
+    @Autowired
+    private ProductRepository productRepository;
 
     public List<Product> getAll() {
-        return listProduct;
+        return productRepository.findAll();
     }
 
     public Product get(int id) {
-        return listProduct.stream()
-                .filter(p -> p.getId() == id)
-                .findFirst()
-                .orElse(null);
+        return productRepository.findById(id).orElse(null);
     }
 
     public void add(Product newProduct) {
-        int maxId = listProduct.stream()
-                .mapToInt(Product::getId)
-                .max()
-                .orElse(0);
-
-        newProduct.setId(maxId + 1);
-        listProduct.add(newProduct);
+        productRepository.save(newProduct);
     }
 
     public void update(Product editProduct) {
-        Product find = get(editProduct.getId());
-        if (find != null) {
-            find.setName(editProduct.getName());
-            find.setPrice(editProduct.getPrice());
-            find.setCategory(editProduct.getCategory()); // Cần cập nhật cả category
-            if (editProduct.getImage() != null) {
-                find.setImage(editProduct.getImage());
-            }
-        }
+        productRepository.save(editProduct);
+    }
+    public void delete(int id){
+        productRepository.deleteById(id);
     }
 
     public void updateImage(Product newProduct, MultipartFile imageProduct) {

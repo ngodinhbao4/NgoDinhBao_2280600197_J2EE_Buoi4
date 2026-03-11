@@ -9,6 +9,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 
 @Controller
@@ -20,6 +21,11 @@ public class ProductController {
 
     @Autowired
     private CategoryService categoryService;
+
+    @ModelAttribute
+    public void addAttributes(Model model, HttpServletRequest request) {
+        model.addAttribute("requestURI", request.getRequestURI());
+    }
 
     @GetMapping()
     public String Index(Model model) {
@@ -36,8 +42,7 @@ public class ProductController {
     }
     @GetMapping("/delete/{id}")
     public String deleteProduct(@PathVariable int id) {
-        // Giả sử bạn thêm hàm remove trong ProductService
-        productService.getAll().removeIf(p -> p.getId() == id);
+        productService.delete(id);
         return "redirect:/products";
     }
     @PostMapping("/create")
